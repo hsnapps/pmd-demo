@@ -1,0 +1,38 @@
+<project>
+    <path id="pmd.classpath">
+        <pathelement location="org.apache.maven.model.Build@552297d7"/>
+        <fileset dir="lib/pmd">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+    <taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.classpath"/>
+    <taskdef name="cpd" classname="net.sourceforge.pmd.cpd.CPDTask" classpathref="pmd.classpath"/>
+    
+    <target name="pmd">
+        <taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.classpath"/>
+        <pmd rulesetfiles="basic" shortFilenames="true">
+            <formatter type="xml" toFile="target/pmd.xml" />
+            <fileset dir="src/main/java" includes="**/*.java"/>
+        </pmd>
+    </target>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+    <target name="compile">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src" destdir="build/classes"/>
+    </target>
+    <target name="jar">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/HelloWorld.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="oata.HelloWorld"/>
+            </manifest>
+        </jar>
+    </target>
+    <target name="run">
+        <java jar="build/jar/HelloWorld.jar" fork="true"/>
+    </target>
+</project>
+
